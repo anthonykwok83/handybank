@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -12,28 +12,32 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        // internal represent to Bank
-        DB::table('users')->insert([
+        User::create([
             'name' => 'Bank',
             'email' => 'bank@gmail.com',
             'password' => bcrypt('secret'),
             'is_bank_owner' => true,
+        ])->accounts()->create([
+            'balance' => 0
         ]);
 
-
-        // Normal user to present 1-5 API
-        DB::table('users')->insert([
+        User::create([
             'name' => 'User 1',
             'email' => 'user1@gmail.com',
             'password' => bcrypt('secret'),
+        ])->accounts()->createMany([
+            ['balance' => 20000],
+            ['balance' => 30000],
         ]);
 
-
-        // Normal user to present 6 API for transfer money from different user
-        DB::table('users')->insert([
+        User::create([
             'name' => 'User 2',
             'email' => 'user 2@gmail.com',
             'password' => bcrypt('secret'),
+        ])->accounts()->create([
+            'balance' => 20000
         ]);
+
+
     }
 }

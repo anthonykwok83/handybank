@@ -56,6 +56,7 @@ class AccountController extends Controller
      */
     public function show(User $user, Account $account)
     {
+        $this->checkAuth($user, $account);
         return $account;
     }
 
@@ -69,22 +70,45 @@ class AccountController extends Controller
      */
     public function destroy(User $user, Account $account)
     {
+        $this->checkAuth($user, $account);
+
         $deleted = $account->delete();
         if ($deleted) {
             return ['status' => 'success'];
         }
-        abort(503);
+        abort(422, 'Close Account Failed');
     }
 
+    /**
+     * Withdraw the money from account
+     *
+     * @param User $user
+     * @param Account $account
+     * @param Request $request
+     * @return array
+     */
     public function withdraw(User $user, Account $account, Request $request)
     {
+        $this->checkAuth($user, $account);
+
         $isWithdraw = true;
         return $this->creditDebit($account, $request, $isWithdraw);
 
     }
 
+
+    /**
+     * deposit the money to account
+     *
+     * @param User $user
+     * @param Account $account
+     * @param Request $request
+     * @return array
+     */
     public function deposit(User $user, Account $account, Request $request)
     {
+        $this->checkAuth($user, $account);
+
         $isWithdraw = false;
         return $this->creditDebit($account, $request, $isWithdraw);
     }
@@ -131,9 +155,11 @@ class AccountController extends Controller
      */
     public function transferMoney(User $user, Account $fromAccount, Account $toAccount, Request $request)
     {
+        $this->checkAuth($user, $fromAccount);
+
         // same account return error
         if ($fromAccount->id === $toAccount->id) {
-            abort(503);
+            abort(422, 'Same account is not allowed to transfer money');
         }
 
         // check post with amount parameter, return 442 status code when not pass
@@ -218,13 +244,31 @@ class AccountController extends Controller
         $bankAccount->save();
     }
 
-
+    /**
+     * get the unique bank account
+     *
+     * @return Account
+     */
     private function getBankAccount(): Account
     {
         $bankAccount = Account::whereHas('user', function ($query) {
             $query->where('is_bank_owner', '=' , true);
         })->first();
         return $bankAccount;
+    }
+
+    /**
+     * @param User $user
+     * @param Account $account
+     */
+    private function checkAuth(User $user, Account $account)
+    {
+        if ($account->user_id != $user->id) {
+            // the link /api/v1/user/1/account/1 should not be used in production
+            //   should use /api/v1/account/1 instead.
+            // But we need to skip the oAuth in this demonstration.
+            abort(422, 'User of Account mismatch with the owner, you are not allowed to use this account');
+        }
     }
 
 
