@@ -18,7 +18,7 @@
     <h3>curl</h3>
 
     <pre><code class="bash">
-curl -d "balance=20000" -X POST {{ action('Api\V1\AccountController@store', ['user' => 2]) }}
+curl -H "X-Requested-With: XMLHttpRequest" -d "balance=20000" -X POST {{ action('Api\V1\AccountController@store', ['user' => 2]) }}
     </code></pre>
 
     <a id="jquery-way"></a>

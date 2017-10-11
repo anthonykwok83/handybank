@@ -17,7 +17,7 @@
     <h3>curl</h3>
     <pre>
     <code class="bash">
-curl -X DELETE {{ action('Api\V1\AccountController@destroy', ['user' => 2, 'account' => 2]) }}
+curl -H "X-Requested-With: XMLHttpRequest" -X DELETE {{ action('Api\V1\AccountController@destroy', ['user' => 2, 'account' => 2]) }}
     </code>
     </pre>
 

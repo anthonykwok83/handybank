@@ -18,7 +18,7 @@
 
     <pre>
         <code class="bash">
-curl {{ action('Api\V1\AccountController@show', ['user' => 2, 'account' => 2]) }}
+curl -H "X-Requested-With: XMLHttpRequest" {{ action('Api\V1\AccountController@show', ['user' => 2, 'account' => 2]) }}
         </code>
     </pre>
 

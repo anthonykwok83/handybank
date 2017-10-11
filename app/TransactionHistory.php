@@ -31,6 +31,7 @@ class TransactionHistory extends Model
 {
     const FLOW_SEND = 'SEND';
     const FLOW_RECEIVED = 'RECEIVED';
+    const FLOW_SERVICE_FEE = 'SERVICE_FEE';
 
     protected $dates = [
         'transaction_at',

@@ -24,7 +24,7 @@
     </table>
     <pre>
     <code class="bash">
-curl -d "amount=9000&today=2017-10-11" -X POST {{ action('Api\V1\AccountController@transferMoney', ['user' => 2, 'account' => 2, 'toAccount' => 3]) }}
+curl -H "X-Requested-With: XMLHttpRequest" -d "amount=9000&today=2017-10-11" -X POST {{ action('Api\V1\AccountController@transferMoney', ['user' => 2, 'account' => 2, 'toAccount' => 3]) }}
     </code>
     </pre>
 
@@ -38,7 +38,7 @@ curl -d "amount=9000&today=2017-10-11" -X POST {{ action('Api\V1\AccountControll
     </table>
     <pre>
     <code class="bash">
-curl -d "amount=9000&today=2017-10-11" -X POST {{ action('Api\V1\AccountController@transferMoney', ['user' => 3, 'account' => 4, 'toAccount' => 2]) }}
+curl -H "X-Requested-With: XMLHttpRequest" -d "amount=9000&today=2017-10-11" -X POST {{ action('Api\V1\AccountController@transferMoney', ['user' => 3, 'account' => 4, 'toAccount' => 2]) }}
     </code>
     </pre>
 

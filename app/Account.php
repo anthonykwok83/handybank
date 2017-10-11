@@ -34,6 +34,7 @@ class Account extends Model
     use SoftDeletes;
 
     const TRANSFER_LIMIT_AMOUNT_DAILY = 10000;
+    const FIXED_SERVICE_FEE = 100;
 
     protected $hidden = [
         'created_at',

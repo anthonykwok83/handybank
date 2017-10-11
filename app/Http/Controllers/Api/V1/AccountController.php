@@ -212,7 +212,7 @@ class AccountController extends Controller
 
 
             if ($fromAccount->user->id != $toAccount->user->id) {
-                $this->serviceChargeToBank($fromAccount);
+                $this->serviceChargeToBank($fromAccount, $today);
             }
             DB::commit();
             $isSuccess = true;
@@ -234,14 +234,23 @@ class AccountController extends Controller
      * Should include transaction if using with other sql
      *
      * @param Account $payer it should be the payer of account and not payee
+     * @param Carbon $today  TODO: Remove when used in production
      */
-    private function serviceChargeToBank(Account $payer)
+    private function serviceChargeToBank(Account $payer, Carbon $today)
     {
         $bankAccount = $this->getBankAccount();
-        $payer->balance -= 100;
-        $bankAccount->balance += 100;
+        $payer->balance -= Account::FIXED_SERVICE_FEE;
+        $bankAccount->balance += Account::FIXED_SERVICE_FEE;
         $payer->save();
         $bankAccount->save();
+
+        // Write log to transaction history about the service fee
+        $payer->transactions()->create([
+            'flow_type' => TransactionHistory::FLOW_SERVICE_FEE,
+            'amount' => Account::FIXED_SERVICE_FEE,
+            'transaction_at' => $today,
+            'remark' => "Service Charge Fee from $payer->id to Bank Account $bankAccount->id",
+        ]);
     }
 
     /**
