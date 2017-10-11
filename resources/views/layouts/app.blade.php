@@ -12,26 +12,16 @@
 
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
-
-    <style>
-        .source-code {
-            border: 1px dashed darkcyan;
-            background-color: lightblue;
-            padding: 4px;
-            font-family: "Courier New";
-        }
-
-    </style>
-
-
 </head>
 <body>
 
 @yield('content')
 
 @section('footer_js')
+    {{--<script src="https://cdn.jsdelivr.net/npm/vue"></script>--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+    {{--<script>hljs.initHighlightingOnLoad();</script>--}}
     <script
             src="https://code.jquery.com/jquery-3.2.1.js"
             integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
@@ -49,6 +39,36 @@
         }
 
     </script>
+
+
+    <script>
+        Vue.directive('highlightjs', {
+            deep: true,
+            bind: function (el, binding) {
+                // on first bind, highlight all targets
+                var targets = el.querySelectorAll('code');
+                targets.forEach(function (target) {
+                    // if a value is directly assigned to the directive, use this
+                    // instead of the element content.
+                    if (binding.value) {
+                        target.textContent = binding.value
+                    }
+                    hljs.highlightBlock(target);
+                });
+            },
+            componentUpdated: function (el, binding) {
+                // after an update, re-fill the content and then highlight
+                var targets = el.querySelectorAll('code');
+                targets.forEach( function (target) {
+                    if (binding.value) {
+                        target.textContent = binding.value;
+                        hljs.highlightBlock(target);
+                    }
+                });
+            }
+        })
+    </script>
+
 
 @show
 

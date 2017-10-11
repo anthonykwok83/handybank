@@ -8,12 +8,27 @@
     <a href="https://github.com/anthonykwok83/handybank">https://github.com/anthonykwok83/handybank</a>
     <p>You may pull it to local and see the source code</p>
     <p>Then, we have to generate the tables for keep track all the things</p>
-    <p>You may run <span class="source-code">php artisan migrate:refresh --seed</span> to generate your own</p>
+    <p>You may run</p>
+    <pre><code class="bash">php artisan migrate:refresh --seed</code></pre>
+    <p>to generate your own</p>
 
     <p>To keep this api project simple and easy to read. I decided not to use any frontend framework such as bootstrap and datatables</p>
 
     <p>So I will present the raw html tables here. Please refresh this page manually to see the changing after using the api</p>
 
+    <hr>
+    <h3>Here are the tasks implemented</h3>
+
+    <ol>
+        <li><a href="{{ action('IndexController@openAccount') }}">Open account</a></li>
+        <li><a href="{{ action('IndexController@closeAccount') }}">Close account</a></li>
+        <li><a href="{{ action('IndexController@getCurrentBalance') }}">Get current balance</a></li>
+        <li><a href="{{ action('IndexController@withdrawMoney') }}">Withdraw money</a></li>
+        <li><a href="{{ action('IndexController@depositMoney') }}">Deposit money</a></li>
+        <li><a href="{{ action('IndexController@transferMoney') }}">Transfer money</a></li>
+    </ol>
+
+    <hr>
     <h4>User table</h4>
     <table class="user-table" border="1">
         <tr>
@@ -80,17 +95,11 @@
     </form>
     
 
-    <hr>
-    <h3>Here are the tasks implemented</h3>
 
-    <ol>
-        <li><a href="{{ action('IndexController@openAccount') }}">Open account</a></li>
-        <li><a href="{{ action('IndexController@closeAccount') }}">Close account</a></li>
-        <li><a href="{{ action('IndexController@getCurrentBalance') }}">Get current balance</a></li>
-        <li><a href="{{ action('IndexController@withdrawMoney') }}">Withdraw money</a></li>
-        <li><a href="{{ action('IndexController@depositMoney') }}">Deposit money</a></li>
-        <li><a href="{{ action('IndexController@transferMoney') }}">Transfer money</a></li>
-    </ol>
 
 @endsection
 
+@section('footer_js')
+    @parent
+    <script>hljs.initHighlightingOnLoad();</script>
+@endsection

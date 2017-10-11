@@ -40,26 +40,31 @@ class IndexController extends Controller
 
     public function closeAccount()
     {
-        return view('doc.close_account');
+        $accounts = Account::all();
+        return view('doc.close_account', compact('accounts'));
     }
 
     public function getCurrentBalance()
     {
-        return view('doc.get_current_balance');
+        $accounts = Account::all();
+        return view('doc.get_current_balance', compact('accounts'));
     }
 
     public function withdrawMoney()
     {
-        return view('doc.withdraw_money');
+        $accounts = Account::all();
+        return view('doc.withdraw_money', compact('accounts'));
     }
 
     public function depositMoney()
     {
-        return view('doc.deposit_money');
+        $accounts = Account::all();
+        return view('doc.deposit_money', compact('accounts'));
     }
 
     public function transferMoney()
     {
-        return view('doc.transfer_money');
+        $accounts = Account::all();
+        return view('doc.transfer_money', compact('accounts'));
     }
 }
