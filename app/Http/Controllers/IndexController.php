@@ -28,8 +28,8 @@ class IndexController extends Controller
 
     public function resetDatabase()
     {
-        Artisan::call('migrate:refresh');
-        Artisan::call('db:seed');
+        Artisan::call('migrate:refresh', ['--force' => true]);
+        Artisan::call('db:seed', ['--force' => true]);
         return redirect()->back();
     }
 

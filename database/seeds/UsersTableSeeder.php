@@ -32,7 +32,7 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'name' => 'User 2',
-            'email' => 'user 2@gmail.com',
+            'email' => 'user2@gmail.com',
             'password' => bcrypt('secret'),
         ])->accounts()->create([
             'balance' => 20000

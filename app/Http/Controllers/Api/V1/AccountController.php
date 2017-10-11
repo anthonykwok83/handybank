@@ -138,7 +138,7 @@ class AccountController extends Controller
         if ($saved) {
             return ['status' => 'success'];
         }
-        abort(503);
+        abort(422, 'Cannot be withdraw or deposit, please try to reset database and test again');
     }
 
 
